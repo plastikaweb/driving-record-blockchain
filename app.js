@@ -1,6 +1,8 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+
+const app = express();
 let port = 3000;
 let nodes = [];
 
@@ -9,13 +11,27 @@ const Block = require('./block');
 const Blockchain = require('./blockchain');
 const Transaction = require('./transaction');
 let transactions = [];
-const blockChain = new Blockchain(new Block());
+let blockChain = new Blockchain(new Block());
+
+app.use(bodyParser.json());
 
 process.argv.forEach((val, index, arr) => {
   port = arr[2] || port;
 });
 
-app.use(bodyParser.json());
+app.get('/resolve', (req, res) => {
+  nodes.forEach((node) => {
+    fetch(`${node.url}/blockchain`)
+      .then(response => response.json())
+      .then(otherBlockChain => {
+        if (blockChain.blocks.length < otherBlockChain.blocks.length) {
+          blockChain = otherBlockChain;
+        }
+        res.send(blockChain);
+      })
+      .catch(err => console.log(err));
+  });
+});
 
 app.get('/', (req, res) => res.send('hello world'));
 
