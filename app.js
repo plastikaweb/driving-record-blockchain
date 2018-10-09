@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
+const sha256 = require('js-sha256');
 
 const app = express();
 let port = 3000;
@@ -55,11 +56,11 @@ app.get('/mine', (req, res) => {
 
 app.post('/transactions', (req, res) => {
   const {
-    to,
-    from,
-    amount
+    driverLicenseNumber,
+    voilationDate,
+    voilationType
   } = req.body;
-  transactions = [...transactions, new Transaction(from, to, amount)];
+  transactions = [...transactions, new Transaction(sha256(driverLicenseNumber), voilationDate, voilationType)];
 
   res.json(transactions);
 });
