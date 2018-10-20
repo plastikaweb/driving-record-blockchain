@@ -1,9 +1,9 @@
 class Transaction {
-  constructor(driverLicense, voilationDate, voilationType) {
+  constructor(driverLicense, violationDate, violationType) {
     this.driverLicense = driverLicense;
-    this.voilationDate = voilationDate;
-    this.voilationType = voilationType;
-    this.noOfVoilations = 1;
+    this.violationDate = violationDate;
+    this.violationType = violationType;
+    this.noOfViolations = 1;
     this.isDriverLicenseSuspended = false;
   }
 }
