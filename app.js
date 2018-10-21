@@ -69,4 +69,10 @@ app.post('/transactions', (req, res) => {
 	res.json(transactions);
 });
 
+app.get('/driving-records/:driverLicenseNumber', (req, res) => {
+	const {driverLicenseNumber} = req.params;
+	const transactions = blockChain.transactionsByDriver(sha256(driverLicenseNumber));
+	res.json(transactions);
+});
+
 app.listen(port, () => console.log('server running'));

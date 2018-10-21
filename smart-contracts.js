@@ -2,7 +2,7 @@ class SmartContract {
 	apply(transaction, blocks) {
 		blocks.forEach(block => {
 			block.transactions.forEach(trans => {
-				if (trans.driverLicense === transaction.driverLicense) {
+				if (trans.driverLicenseNumber === transaction.driverLicenseNumber) {
 					transaction.noOfViolations++;
 					if (transaction.noOfViolations > 5) {
 						transaction.isDriverLicenseSuspended = true;
